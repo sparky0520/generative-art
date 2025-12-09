@@ -13,7 +13,7 @@ addEventListener("load", () => {
   // effect settings
   let size = 200;
   let sides = 24;
-  const maxLevel = 3;
+  const maxLevel = 10;
 
   ctx.save();
   ctx.translate(canvas.width / 2, canvas.height / 2);
@@ -28,8 +28,8 @@ addEventListener("load", () => {
     ctx.lineTo(size, 0);
     ctx.stroke();
     ctx.translate(100, 0);
-    ctx.scale(0.9, 0.9);
-    ctx.rotate(0.5);
+    ctx.scale(0.8, 0.8);
+    ctx.rotate(14.1);
     drawBranch(level + 1);
   }
 
