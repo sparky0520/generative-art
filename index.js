@@ -6,13 +6,14 @@ addEventListener("load", () => {
 
   // canvas settings
   ctx.fillStyle = "green";
-  ctx.strokeStyle = "blue";
+  ctx.strokeStyle = "white";
   ctx.lineCap = "round";
   ctx.lineWidth = 10;
 
   // effect settings
   let size = 200;
   let sides = 24;
+  const maxLevel = 3;
 
   ctx.save();
   ctx.translate(canvas.width / 2, canvas.height / 2);
@@ -20,14 +21,25 @@ addEventListener("load", () => {
   ctx.rotate(0);
   // ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  function drawBranch() {}
-
-  for (let i = 0; i < sides; i++) {
+  function drawBranch(level) {
+    if (level > maxLevel) return;
     ctx.beginPath();
     ctx.moveTo(0, 0);
     ctx.lineTo(size, 0);
     ctx.stroke();
-    ctx.rotate((Math.PI * 2) / sides);
+    ctx.translate(100, 0);
+    ctx.scale(0.9, 0.9);
+    ctx.rotate(0.5);
+    drawBranch(level + 1);
   }
+
+  drawBranch(0);
+  // for (let i = 0; i < sides; i++) {
+  //   ctx.beginPath();
+  //   ctx.moveTo(0, 0);
+  //   ctx.lineTo(size, 0);
+  //   ctx.stroke();
+  //   ctx.rotate((Math.PI * 2) / sides);
+  // }
   ctx.restore();
 });
