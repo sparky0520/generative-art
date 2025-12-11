@@ -27,6 +27,12 @@ let lineWidth = 30;
 
 // controls
 const randomizeButton = document.getElementById("randomizeButton");
+const slider_spread = document.getElementById("spread");
+
+slider_spread.addEventListener("change", function (e) {
+  spread = e.target.value;
+  drawFractal();
+});
 
 function drawBranch(level) {
   if (level > maxLevel) return;
