@@ -13,7 +13,7 @@ ctx.shadowOffsetY = 5;
 ctx.shadowBlur = 10;
 
 // effect settings
-const size =
+let size =
   canvas.width < canvas.height ? canvas.width * 0.3 : canvas.height * 0.3;
 
 const maxLevel = 4;
@@ -67,13 +67,11 @@ function drawBranch(level) {
     drawBranch(level + 1);
     ctx.restore();
 
-    ctx.save();
-    ctx.rotate(-spread);
-    drawBranch(level + 1);
-    ctx.restore();
-
     ctx.restore();
   }
+  ctx.beginPath();
+  ctx.arc(0, size, size * 0.1, 0, Math.PI * 2);
+  ctx.fill();
 }
 
 function drawFractal() {
@@ -81,10 +79,15 @@ function drawFractal() {
   ctx.save();
   ctx.lineWidth = lineWidth;
   ctx.strokeStyle = "hsl(" + color + ", 100%, 50%)";
+  ctx.fillStyle = "hsl(" + color + ", 100%, 50%)";
   ctx.translate(canvas.width / 2, canvas.height / 2);
   for (let i = 0; i < sides; i++) {
     ctx.rotate((Math.PI * 2) / sides);
     drawBranch(0);
+
+    ctx.beginPath();
+    ctx.arc(0, size, size * 0.1, 0, Math.PI * 2);
+    ctx.fill();
   }
   ctx.restore();
 }
@@ -92,7 +95,7 @@ drawFractal();
 
 function randomizeFractal() {
   sides = Math.floor(Math.random() * 7 + 2);
-  scale = Math.random() * 0.2 + 0.4;
+  scale = Math.random() * 0.4 + 0.4;
   spread = Math.random() * 2.9 + 0.1;
   color = Math.random() * 360;
   lineWidth = Math.random() * 10;
@@ -127,3 +130,17 @@ function resetFractal() {
   updateSliders();
   drawFractal();
 }
+
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  size =
+    canvas.width < canvas.height ? canvas.width * 0.3 : canvas.height * 0.3;
+
+  ctx.shadowColor = "rgb(0,0,0,0.7)";
+  ctx.shadowOffsetX = 5;
+  ctx.shadowOffsetY = 5;
+  ctx.shadowBlur = 10;
+  ctx.lineCap = "round";
+  drawFractal();
+});
