@@ -6,7 +6,6 @@ canvas.height = window.innerHeight;
 // canvas settings
 ctx.fillStyle = "green";
 ctx.lineCap = "round";
-ctx.lineWidth = 30;
 
 ctx.shadowColor = "rgb(0,0,0,0.7)";
 ctx.shadowOffsetX = 5;
@@ -24,6 +23,7 @@ let sides = 5;
 let scale = 0.5;
 let spread = 0.7;
 let color = 120;
+let lineWidth = 30;
 
 // controls
 const randomizeButton = document.getElementById("randomizeButton");
@@ -57,6 +57,7 @@ function drawBranch(level) {
 function drawFractal() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.save();
+  ctx.lineWidth = lineWidth;
   ctx.strokeStyle = "hsl(" + color + ", 100%, 50%)";
   ctx.translate(canvas.width / 2, canvas.height / 2);
   for (let i = 0; i < sides; i++) {
@@ -72,6 +73,7 @@ function randomizeFractal() {
   scale = Math.random() * 0.2 + 0.4;
   spread = Math.random() * 2.9 + 0.1;
   color = Math.random() * 360;
+  lineWidth = Math.random() * 10;
 }
 
 randomizeButton.addEventListener("click", () => {
