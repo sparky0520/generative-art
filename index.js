@@ -14,14 +14,14 @@ ctx.shadowBlur = 10;
 
 // effect settings
 let size =
-  canvas.width < canvas.height ? canvas.width * 0.3 : canvas.height * 0.3;
+  canvas.width < canvas.height ? canvas.width * 0.1 : canvas.height * 0.1;
 
-const maxLevel = 4;
-const branches = 2;
+const maxLevel = 8;
+const branches = 1;
 
-let sides = 5;
-let scale = 0.5;
-let spread = 0.7;
+let sides = 10;
+let scale = 0.85;
+let spread = -0.2;
 let color = 120;
 let lineWidth = 30;
 
@@ -50,16 +50,18 @@ slider_sides.addEventListener("change", function (e) {
   drawFractal();
 });
 
+let pointX = 0;
+let pointY = size;
 function drawBranch(level) {
   if (level > maxLevel) return;
   ctx.beginPath();
-  ctx.moveTo(0, 0);
-  ctx.lineTo(size, 0);
+  ctx.moveTo(pointX, pointY);
+  ctx.bezierCurveTo(0, sides * spread * -3, size * 5, size * 10 * spread, 0, 0);
   ctx.stroke();
 
   for (let i = 0; i < branches; i++) {
     ctx.save();
-    ctx.translate(size - (size / branches) * i, 0);
+    ctx.translate(pointX, pointY);
     ctx.scale(scale, scale);
 
     ctx.save();
@@ -70,7 +72,7 @@ function drawBranch(level) {
     ctx.restore();
   }
   ctx.beginPath();
-  ctx.arc(0, size, size * 0.1, 0, Math.PI * 2);
+  ctx.arc(-size / 2, 0, 40, 0, Math.PI * 2);
   ctx.fill();
 }
 
@@ -82,7 +84,8 @@ function drawFractal() {
   ctx.fillStyle = "hsl(" + color + ", 100%, 50%)";
   ctx.translate(canvas.width / 2, canvas.height / 2);
   for (let i = 0; i < sides; i++) {
-    ctx.rotate((Math.PI * 2) / sides);
+    ctx.scale(0.95, 0.95);
+    ctx.rotate((Math.PI * 6) / sides);
     drawBranch(0);
 
     ctx.beginPath();
@@ -94,11 +97,11 @@ function drawFractal() {
 drawFractal();
 
 function randomizeFractal() {
-  sides = Math.floor(Math.random() * 7 + 2);
+  sides = Math.floor(Math.random() * 19 + 2);
   scale = Math.random() * 0.4 + 0.4;
-  spread = Math.random() * 2.9 + 0.1;
+  spread = Math.random() * 0.6 - 0.3;
   color = Math.random() * 360;
-  lineWidth = Math.random() * 10;
+  lineWidth = Math.floor(Math.random() * 31 + 20);
 }
 
 randomizeButton.addEventListener("click", () => {
@@ -122,9 +125,9 @@ function updateSliders() {
 updateSliders();
 
 function resetFractal() {
-  sides = 5;
-  scale = 0.5;
-  spread = 0.7;
+  sides = 15;
+  scale = 0.85;
+  spread = 0.2;
   color = 120;
   lineWidth = 30;
   updateSliders();
@@ -135,7 +138,7 @@ window.addEventListener("resize", () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   size =
-    canvas.width < canvas.height ? canvas.width * 0.3 : canvas.height * 0.3;
+    canvas.width < canvas.height ? canvas.width * 0.1 : canvas.height * 0.1;
 
   ctx.shadowColor = "rgb(0,0,0,0.7)";
   ctx.shadowOffsetX = 5;
